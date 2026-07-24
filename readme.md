@@ -1,0 +1,19 @@
+# Untitled
+
+
+## Import environments
+
+``` python
+import pandas as pd
+import statsmodels.api as sm
+```
+
+## Bringing in the Data
+
+``` python
+file_path = '~/Library/Mobile Documents/com~apple~CloudDocs/MSBAAcademics/Python/PotentialDataSets/CompletionRateData.xlsx'
+```
+
+``` python
+unicef = pd.read_excel('~/Library/Mobile Documents/com~apple~CloudDocs/MSBAAcademics/Python/PotentialDataSets/CompletionRateData.xlsx')
+```

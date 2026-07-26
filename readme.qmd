@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Python Project: Education Completion Rates Across Countries"
 format: gfm
 ---
 
@@ -10,6 +10,10 @@ import pandas as pd
 import statsmodels.api as sm
 ```
 
+## In Terminal
+pip3 install openpyxl
+This allows the excel file to be read. 
+
 ## Bringing in the Data
 
 ```{python}
@@ -18,5 +22,11 @@ file_path = '~/Library/Mobile Documents/com~apple~CloudDocs/MSBAAcademics/Python
 
 
 ```{python}
-unicef = pd.read_excel('~/Library/Mobile Documents/com~apple~CloudDocs/MSBAAcademics/Python/PotentialDataSets/CompletionRateData.xlsx')
+pd.read_excel(file_path, sheet_name='Primary')
+
+pd.read_excel(file_path, sheet_name='Lower secondary')
+
+pd.read_excel(file_path, sheet_name='Upper secondary')
 ```
+
+

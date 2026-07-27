@@ -822,7 +822,7 @@ plt.axvline(combined_gap.mean(), color = 'blue', label = 'Less Developed Group M
 
 plt.xlabel('Average Gender Completion Gap (F-M)')
 plt.ylabel('Number of Countries')
-plt.title('Distribution of Gender Gap: "Less Developed" Countries (Combined Education Levels)')
+plt.title('Distribution of Gender Gap for Less Developed Countries (Combined Education Levels)')
 plt.legend()
 
 plt.show()

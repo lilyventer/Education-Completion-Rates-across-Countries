@@ -3,7 +3,7 @@
 
 ## The Prompt
 
-How do global school attendance rates differ by gender, and what
+How do global school completion rates differ by gender, and what
 patterns emerge across regions and levels of development?
 
 ## Supproting Questions
@@ -14,9 +14,9 @@ How does South Africa compare with the broader regional trend?
 
 How does the gender gap change with a country’s level of development?
 
-Is South Africa unique, or does it reflect the broader attendance
-patterns and gender disparities observed across other less developed
-countries?
+Is South Africa unique, or does it reflect broader patterns in
+completion rates and gender disparities observed among other less
+developed countries?
 
 ## Setup
 
@@ -128,16 +128,16 @@ Create a funtion to rename the columns, & save the changes
 ``` python
 def rename_columns(df):
     df = df.rename(columns = {'ISO3': 'Country Abbreviation',
-        'Total': 'Total Attendance (%)',
-        'Gender_Female': 'Female Attendance (%)',
-        'Gender_Male': 'Male Attendance (%)',
-        'Residence_Rural': 'Rural Attendance (%)',
-        'Residence_Urban': 'Urban Attendance (%)',
-        'WealthQuintile_Poorest': 'Poorest Quintile Attendance (%)',
-        'WealthQuintile_Second': 'Second Quintile Attendance (%)',
-        'WealthQuintile_Middle': 'Middle Quintile Attendance (%)',
-        'WealthQuintile_Fourth': 'Fourth Quintile Attendance (%)',
-        'WealthQuintile_Richest': 'Richest Quintile Attendance (%)'
+        'Total': 'Total Completion (%)',
+        'Gender_Female': 'Female Completion (%)',
+        'Gender_Male': 'Male Completion (%)',
+        'Residence_Rural': 'Rural Completion (%)',
+        'Residence_Urban': 'Urban Completion (%)',
+        'WealthQuintile_Poorest': 'Poorest Quintile Completion (%)',
+        'WealthQuintile_Second': 'Second Quintile Completion (%)',
+        'WealthQuintile_Middle': 'Middle Quintile Completion (%)',
+        'WealthQuintile_Fourth': 'Fourth Quintile Completion (%)',
+        'WealthQuintile_Richest': 'Richest Quintile Completion (%)'
         })
     return df
 # the 'df =' means the new names will replace the old ones
@@ -148,6 +148,40 @@ Run the function
 ``` python
 unicef_all = rename_columns(unicef_all)
 ```
+
+``` python
+unicef_all
+```
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&#10;    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+&#10;    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Completion (%) | Female Completion (%) | Male Completion (%) | Rural Completion (%) | Urban Completion (%) | ... | Richest Quintile Completion (%) | Data source | Time period | Population data | Unnamed: 18 | Unnamed: 19 | Unnamed: 20 | Unnamed: 21 | Unnamed: 22 | Level |
+|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
+| 0 | AFG | Afghanistan | SA | SA | Least Developed | 53.900002 | 4.020000e+01 | 6.720000e+01 | 47.799999 | 70.800003 | ... | 74.500000 | DHS 2015 | 2015.0 | 6422789.0 | 3136310.0 | 3286479.0 | 4.785306e+06 | 1.637483e+06 | 0.254949 | Primary |
+| 1 | ALB | Albania | ECA | EECA | More Developed | 94.921280 | 9.569837e+01 | 9.415596e+01 | 93.074661 | 96.308372 | ... | 97.969856 | DHS 2017-18 | 2018.0 | 165268.0 | 78319.0 | 86949.0 | 6.558019e+04 | 9.968781e+04 | 0.603189 | Primary |
+| 2 | DZA | Algeria | MENA | MENA | Less Developed | 94.708633 | 9.647162e+01 | 9.307437e+01 | 92.381554 | 95.936897 | ... | 98.906937 | MICS 2019 | 2020.0 | 4497034.0 | 2201637.0 | 2295397.0 | 1.230885e+06 | 3.266149e+06 | 0.726290 | Primary |
+| 3 | AND | Andorra | ECA | WE | More Developed | NaN | NaN | NaN | NaN | NaN | ... | NaN | NaN | NaN | 3913.0 | 1879.0 | 2034.0 | 4.671518e+02 | 3.445848e+03 | 0.880615 | Primary |
+| 4 | AGO | Angola | SSA | ESA | Least Developed | 59.849659 | 5.663134e+01 | 6.327890e+01 | 27.187010 | 73.655067 | ... | 89.008347 | DHS 2015-16 | 2016.0 | 6029594.0 | 2998637.0 | 3030957.0 | 2.079341e+06 | 3.950253e+06 | 0.655144 | Primary |
+| ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |
+| 214 | NaN | Sub-Saharan Africa | SSA | NaN | NaN | 0.972007 | 7.374666e+07 | 7.168227e+07 | NaN | NaN | ... | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | Upper secondary |
+| 215 | NaN | Eastern & Southern Africa | NaN | ESA | NaN | 0.943309 | 3.505918e+07 | 3.307164e+07 | NaN | NaN | ... | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | Upper secondary |
+| 216 | NaN | West & Central Africa | NaN | WCA | NaN | 0.998014 | 3.868748e+07 | 3.861063e+07 | NaN | NaN | ... | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | Upper secondary |
+| 217 | NaN | Least developed countries | NaN | NaN | LDC | 0.970764 | 6.789422e+07 | 6.590925e+07 | NaN | NaN | ... | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | Upper secondary |
+| 218 | NaN | World | NaN | NaN | NaN | 0.849574 | 3.984294e+08 | 3.384952e+08 | NaN | NaN | ... | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | Upper secondary |
+
+<p>657 rows × 24 columns</p>
+</div>
 
 ## Clarity on Column content/ Dictionaries
 
@@ -242,7 +276,7 @@ unicef_all
     }
 </style>
 
-|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Attendance (%) | Female Attendance (%) | Male Attendance (%) | Rural Attendance (%) | Urban Attendance (%) | Poorest Quintile Attendance (%) | Second Quintile Attendance (%) | Middle Quintile Attendance (%) | Fourth Quintile Attendance (%) | Richest Quintile Attendance (%) | Data source | Time period | Population data | Level |
+|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Completion (%) | Female Completion (%) | Male Completion (%) | Rural Completion (%) | Urban Completion (%) | Poorest Quintile Completion (%) | Second Quintile Completion (%) | Middle Quintile Completion (%) | Fourth Quintile Completion (%) | Richest Quintile Completion (%) | Data source | Time period | Population data | Level |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
 | 0 | AFG | Afghanistan | South Asia | South Asia | Least Developed | 53.900002 | 4.020000e+01 | 6.720000e+01 | 47.799999 | 70.800003 | 44.500000 | 46.000000 | 42.599998 | 60.000000 | 74.500000 | DHS 2015 | 2015.0 | 6422789.0 | Primary |
 | 1 | ALB | Albania | Europe & Central Asia | Eastern Europe & Central Asia | More Developed | 94.921280 | 9.569837e+01 | 9.415596e+01 | 93.074661 | 96.308372 | 93.340530 | 93.469879 | 95.767410 | 94.290802 | 97.969856 | DHS 2017-18 | 2018.0 | 165268.0 | Primary |
@@ -278,7 +312,7 @@ unicef_all.head()
     }
 </style>
 
-|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Attendance (%) | Female Attendance (%) | Male Attendance (%) | Rural Attendance (%) | Urban Attendance (%) | Poorest Quintile Attendance (%) | Second Quintile Attendance (%) | Middle Quintile Attendance (%) | Fourth Quintile Attendance (%) | Richest Quintile Attendance (%) | Data source | Time period | Population data | Level |
+|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Completion (%) | Female Completion (%) | Male Completion (%) | Rural Completion (%) | Urban Completion (%) | Poorest Quintile Completion (%) | Second Quintile Completion (%) | Middle Quintile Completion (%) | Fourth Quintile Completion (%) | Richest Quintile Completion (%) | Data source | Time period | Population data | Level |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
 | 0 | AFG | Afghanistan | South Asia | South Asia | Least Developed | 53.900002 | 40.200001 | 67.199997 | 47.799999 | 70.800003 | 44.500000 | 46.000000 | 42.599998 | 60.000000 | 74.500000 | DHS 2015 | 2015.0 | 6422789.0 | Primary |
 | 1 | ALB | Albania | Europe & Central Asia | Eastern Europe & Central Asia | More Developed | 94.921280 | 95.698372 | 94.155960 | 93.074661 | 96.308372 | 93.340530 | 93.469879 | 95.767410 | 94.290802 | 97.969856 | DHS 2017-18 | 2018.0 | 165268.0 | Primary |
@@ -307,7 +341,7 @@ unicef_all.tail()
     }
 </style>
 
-|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Attendance (%) | Female Attendance (%) | Male Attendance (%) | Rural Attendance (%) | Urban Attendance (%) | Poorest Quintile Attendance (%) | Second Quintile Attendance (%) | Middle Quintile Attendance (%) | Fourth Quintile Attendance (%) | Richest Quintile Attendance (%) | Data source | Time period | Population data | Level |
+|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Completion (%) | Female Completion (%) | Male Completion (%) | Rural Completion (%) | Urban Completion (%) | Poorest Quintile Completion (%) | Second Quintile Completion (%) | Middle Quintile Completion (%) | Fourth Quintile Completion (%) | Richest Quintile Completion (%) | Data source | Time period | Population data | Level |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
 | 214 | NaN | Sub-Saharan Africa | Sub-Saharan Africa | NaN | NaN | 0.972007 | 73746660.0 | 71682266.0 | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | Upper secondary |
 | 215 | NaN | Eastern & Southern Africa | NaN | Eastern & Southern Africa | NaN | 0.943309 | 35059185.0 | 33071637.0 | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | Upper secondary |
@@ -331,16 +365,16 @@ unicef_all.info()
      2   Region                           621 non-null    str    
      3   Sub-region                       612 non-null    str    
      4   Development Regions              609 non-null    str    
-     5   Total Attendance (%)             375 non-null    float64
-     6   Female Attendance (%)            375 non-null    float64
-     7   Male Attendance (%)              375 non-null    float64
-     8   Rural Attendance (%)             333 non-null    float64
-     9   Urban Attendance (%)             333 non-null    float64
-     10  Poorest Quintile Attendance (%)  318 non-null    float64
-     11  Second Quintile Attendance (%)   315 non-null    float64
-     12  Middle Quintile Attendance (%)   315 non-null    float64
-     13  Fourth Quintile Attendance (%)   315 non-null    float64
-     14  Richest Quintile Attendance (%)  315 non-null    float64
+     5   Total Completion (%)             375 non-null    float64
+     6   Female Completion (%)            375 non-null    float64
+     7   Male Completion (%)              375 non-null    float64
+     8   Rural Completion (%)             333 non-null    float64
+     9   Urban Completion (%)             333 non-null    float64
+     10  Poorest Quintile Completion (%)  318 non-null    float64
+     11  Second Quintile Completion (%)   315 non-null    float64
+     12  Middle Quintile Completion (%)   315 non-null    float64
+     13  Fourth Quintile Completion (%)   315 non-null    float64
+     14  Richest Quintile Completion (%)  315 non-null    float64
      15  Data source                      335 non-null    str    
      16  Time period                      335 non-null    float64
      17  Population data                  606 non-null    float64
@@ -360,20 +394,20 @@ def type_change(df, column_name):
 For loop: all object columns
 
 ``` python
-attendance_columns = [
-    'Total Attendance (%)',
-    'Female Attendance (%)',
-    'Male Attendance (%)',
-    'Rural Attendance (%)',
-    'Urban Attendance (%)',
-    'Poorest Quintile Attendance (%)',
-    'Second Quintile Attendance (%)',
-    'Middle Quintile Attendance (%)',
-    'Fourth Quintile Attendance (%)',
-    'Richest Quintile Attendance (%)'
+completion_columns = [
+    'Total Completion (%)',
+    'Female Completion (%)',
+    'Male Completion (%)',
+    'Rural Completion (%)',
+    'Urban Completion (%)',
+    'Poorest Quintile Completion (%)',
+    'Second Quintile Completion (%)',
+    'Middle Quintile Completion (%)',
+    'Fourth Quintile Completion (%)',
+    'Richest Quintile Completion (%)'
 ]
 
-for i in attendance_columns:
+for i in completion_columns:
     type_change(unicef_all, i)
 ```
 
@@ -393,16 +427,16 @@ unicef_all.info()
      2   Region                           621 non-null    str    
      3   Sub-region                       612 non-null    str    
      4   Development Regions              609 non-null    str    
-     5   Total Attendance (%)             375 non-null    float64
-     6   Female Attendance (%)            375 non-null    float64
-     7   Male Attendance (%)              375 non-null    float64
-     8   Rural Attendance (%)             333 non-null    float64
-     9   Urban Attendance (%)             333 non-null    float64
-     10  Poorest Quintile Attendance (%)  318 non-null    float64
-     11  Second Quintile Attendance (%)   315 non-null    float64
-     12  Middle Quintile Attendance (%)   315 non-null    float64
-     13  Fourth Quintile Attendance (%)   315 non-null    float64
-     14  Richest Quintile Attendance (%)  315 non-null    float64
+     5   Total Completion (%)             375 non-null    float64
+     6   Female Completion (%)            375 non-null    float64
+     7   Male Completion (%)              375 non-null    float64
+     8   Rural Completion (%)             333 non-null    float64
+     9   Urban Completion (%)             333 non-null    float64
+     10  Poorest Quintile Completion (%)  318 non-null    float64
+     11  Second Quintile Completion (%)   315 non-null    float64
+     12  Middle Quintile Completion (%)   315 non-null    float64
+     13  Fourth Quintile Completion (%)   315 non-null    float64
+     14  Richest Quintile Completion (%)  315 non-null    float64
      15  Data source                      335 non-null    str    
      16  Time period                      335 non-null    float64
      17  Population data                  606 non-null    float64
@@ -411,7 +445,7 @@ unicef_all.info()
     memory usage: 102.7 KB
 
 ``` python
-unicef_all.sort_values('Total Attendance (%)', ascending = True)
+unicef_all.sort_values('Total Completion (%)', ascending = True)
 ```
 
 <div>
@@ -427,7 +461,7 @@ unicef_all.sort_values('Total Attendance (%)', ascending = True)
     }
 </style>
 
-|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Attendance (%) | Female Attendance (%) | Male Attendance (%) | Rural Attendance (%) | Urban Attendance (%) | Poorest Quintile Attendance (%) | Second Quintile Attendance (%) | Middle Quintile Attendance (%) | Fourth Quintile Attendance (%) | Richest Quintile Attendance (%) | Data source | Time period | Population data | Level |
+|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Completion (%) | Female Completion (%) | Male Completion (%) | Rural Completion (%) | Urban Completion (%) | Poorest Quintile Completion (%) | Second Quintile Completion (%) | Middle Quintile Completion (%) | Fourth Quintile Completion (%) | Richest Quintile Completion (%) | Data source | Time period | Population data | Level |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
 | 209 | NaN | Western Europe | NaN | Western Europe | NaN | 0.0 | 28221211.0 | 0.0 | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | Primary |
 | 212 | NaN | North America | NaN | NaN | NaN | 0.0 | 13687769.0 | 0.0 | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | NaN | Lower secondary |
@@ -457,19 +491,19 @@ Start with calculations now that the types are adjusted: \## Create
 Gender Gap column
 
 ``` python
-unicef_all['Gender Attendance Gap (F-M)'] = (
-    unicef_all['Female Attendance (%)'] - unicef_all['Male Attendance (%)'])
+unicef_all['Gender Completion Gap (F-M)'] = (
+    unicef_all['Female Completion (%)'] - unicef_all['Male Completion (%)'])
 ```
 
-Positive values mean female attendance is higher than male attendance in
-that row -\> negative values mean male attendance is higher.
+Positive values mean female completion is higher than male completion in
+that row -\> negative values mean male completion is higher.
 
 ``` python
 unicef_all[['Country', 'Region', 
             'Sub-region', 'Development Regions', 
-            'Level', 'Total Attendance (%)', 
-            'Female Attendance (%)', 'Male Attendance (%)',
-            'Gender Attendance Gap (F-M)']].sort_values('Gender Attendance Gap (F-M)', ascending=False)
+            'Level', 'Total Completion (%)', 
+            'Female Completion (%)', 'Male Completion (%)',
+            'Gender Completion Gap (F-M)']].sort_values('Gender Completion Gap (F-M)', ascending=False)
 ```
 
 <div>
@@ -485,7 +519,7 @@ unicef_all[['Country', 'Region',
     }
 </style>
 
-|  | Country | Region | Sub-region | Development Regions | Level | Total Attendance (%) | Female Attendance (%) | Male Attendance (%) | Gender Attendance Gap (F-M) |
+|  | Country | Region | Sub-region | Development Regions | Level | Total Completion (%) | Female Completion (%) | Male Completion (%) | Gender Completion Gap (F-M) |
 |----|----|----|----|----|----|----|----|----|----|
 | 2 | Algeria | Middle East & North Africa | Middle East & North Africa | Less Developed | Upper secondary | 46.431679 | 59.164452 | 34.630589 | 24.533863 |
 | 100 | Lesotho | Sub-Saharan Africa | Eastern & Southern Africa | Least Developed | Primary | 79.900002 | 91.800003 | 68.599998 | 23.200005 |
@@ -519,7 +553,7 @@ unicef_all
     }
 </style>
 
-|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Attendance (%) | Female Attendance (%) | Male Attendance (%) | Rural Attendance (%) | Urban Attendance (%) | Poorest Quintile Attendance (%) | Second Quintile Attendance (%) | Middle Quintile Attendance (%) | Fourth Quintile Attendance (%) | Richest Quintile Attendance (%) | Data source | Time period | Population data | Level | Gender Attendance Gap (F-M) |
+|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Completion (%) | Female Completion (%) | Male Completion (%) | Rural Completion (%) | Urban Completion (%) | Poorest Quintile Completion (%) | Second Quintile Completion (%) | Middle Quintile Completion (%) | Fourth Quintile Completion (%) | Richest Quintile Completion (%) | Data source | Time period | Population data | Level | Gender Completion Gap (F-M) |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
 | 0 | AFG | Afghanistan | South Asia | South Asia | Least Developed | 53.900002 | 40.200001 | 67.199997 | 47.799999 | 70.800003 | 44.500000 | 46.000000 | 42.599998 | 60.000000 | 74.500000 | DHS 2015 | 2015.0 | 6422789.0 | Primary | -26.999996 |
 | 1 | ALB | Albania | Europe & Central Asia | Eastern Europe & Central Asia | More Developed | 94.921280 | 95.698372 | 94.155960 | 93.074661 | 96.308372 | 93.340530 | 93.469879 | 95.767410 | 94.290802 | 97.969856 | DHS 2017-18 | 2018.0 | 165268.0 | Primary | 1.542412 |
@@ -542,7 +576,7 @@ unicef_all
 
 ``` python
 gap_mean = (unicef_all
-            .groupby('Region')['Gender Attendance Gap (F-M)']
+            .groupby('Region')['Gender Completion Gap (F-M)']
             .mean()
             .sort_values())
 ```
@@ -552,22 +586,22 @@ plt.figure()
 
 gap_mean.plot(kind = 'barh')
 
-plt.xlabel('Average Gender Attendance Gap (Female % - Male %)')
+plt.xlabel('Average Gender Completion Gap (F-M)')
 plt.ylabel('Region')
-plt.title('Average Gender Attendance Gap by Region')
+plt.title('Average Gender Completion Gap by Region')
 
 plt.show()
 plt.close()
 ```
 
-![](readme_files/figure-commonmark/cell-34-output-1.png)
+![](readme_files/figure-commonmark/cell-35-output-1.png)
 
 For East Asia & the Pacific, Latin America & the Caribbean, and the
 Middle East & North Africa, the gender gap is positive. This indicates
-that girls have higher school attendance rates than boys. For Europe &
-Central Asia shows little difference between male and female attendance.
+that girls have higher school completion rates than boys. For Europe &
+Central Asia shows little difference between male and female completion.
 In contrast, Sub-Saharan Africa and South Asia display negative gender
-gaps. This means boys attend school at higher rates than girls.
+gaps. This means boys complete school at higher rates than girls.
 
 ## How does South Africa compare with the broader regional trend?
 
@@ -592,7 +626,7 @@ south_africa
     }
 </style>
 
-|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Attendance (%) | Female Attendance (%) | Male Attendance (%) | Rural Attendance (%) | Urban Attendance (%) | Poorest Quintile Attendance (%) | Second Quintile Attendance (%) | Middle Quintile Attendance (%) | Fourth Quintile Attendance (%) | Richest Quintile Attendance (%) | Data source | Time period | Population data | Level | Gender Attendance Gap (F-M) |
+|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Completion (%) | Female Completion (%) | Male Completion (%) | Rural Completion (%) | Urban Completion (%) | Poorest Quintile Completion (%) | Second Quintile Completion (%) | Middle Quintile Completion (%) | Fourth Quintile Completion (%) | Richest Quintile Completion (%) | Data source | Time period | Population data | Level | Gender Completion Gap (F-M) |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
 | 167 | ZAF | South Africa | Sub-Saharan Africa | Eastern & Southern Africa | Less Developed | 96.309448 | 97.922318 | 94.723610 | 94.752388 | 97.392418 | 91.348824 | 96.867783 | 96.637291 | 98.816582 | 99.002617 | DHS 2016 | 2016.0 | 8019675.0 | Primary | 3.198708 |
 | 167 | ZAF | South Africa | Sub-Saharan Africa | Eastern & Southern Africa | Less Developed | 88.452599 | 91.388313 | 85.417801 | 83.954536 | 91.284042 | 74.043533 | 85.289658 | 91.217949 | 95.547638 | 98.448982 | DHS 2016 | 2016.0 | 2133073.0 | Lower secondary | 5.970512 |
@@ -609,11 +643,11 @@ region_group = unicef_all[unicef_all['Region'] == 'Sub-Saharan Africa']
 ```
 
 ``` python
-south_africa_combined = south_africa['Gender Attendance Gap (F-M)'].mean()
+south_africa_combined = south_africa['Gender Completion Gap (F-M)'].mean()
 ```
 
 ``` python
-combined_gap_region = (region_group.groupby('Country')['Gender Attendance Gap (F-M)'].mean())
+combined_gap_region = (region_group.groupby('Country')['Gender Completion Gap (F-M)'].mean())
 ```
 
 Pick bin size for the histogram.
@@ -628,10 +662,10 @@ region_group['Country'].nunique()
 plt.figure()
 
 plt.hist(combined_gap_region, bins=5, color='grey', alpha=0.5)
-plt.axvline(south_africa_combined, color='orange', label='South Africa (average across Education levels)')
-plt.axvline(combined_gap_region.mean(), color='blue', label='Sub-Saharan Africa group mean')
+plt.axvline(south_africa_combined, color='orange', label='South Africa (Average across Education Levels)')
+plt.axvline(combined_gap_region.mean(), color='blue', label='Sub-Saharan Africa Group Mean')
 
-plt.xlabel('Average Gender Attendance Gap (Female % - Male %)')
+plt.xlabel('Average Gender Completion Gap (F-M)')
 plt.ylabel('Number of Countries')
 plt.title('Distribution of Gender Gap: Sub-Saharan Africa Countries (Combined Education Levels)')
 plt.legend()
@@ -640,7 +674,7 @@ plt.show()
 plt.close()
 ```
 
-![](readme_files/figure-commonmark/cell-41-output-1.png)
+![](readme_files/figure-commonmark/cell-42-output-1.png)
 
 ``` python
 print(f'The mean of the Sub-Saharan Africa Countries is {round(combined_gap_region.mean(), 2)}.')
@@ -655,7 +689,7 @@ print(f'The mean of South Africa is {round(south_africa_combined, 2)}.')
     The mean of South Africa is 5.42.
 
 The Sub-Saharan Africa regional mean is -1.8, indicating that, on
-average, boys have slightly higher attendance rates than girls across
+average, boys have slightly higher completion rates than girls across
 the region. South Africa’s stands in contrast to it’s regional mean with
 an average gender gap of 5.42. South Africa is positioned far above the
 regional average and beyond the main concentration of countries in the
@@ -667,7 +701,7 @@ favoring girls.
 
 ``` python
 gap_by_development = (unicef_all
-                    .groupby('Development Regions')['Gender Attendance Gap (F-M)']
+                    .groupby('Development Regions')['Gender Completion Gap (F-M)']
                     .mean()
                     .sort_values())
 ```
@@ -677,15 +711,15 @@ plt.figure()
 
 gap_by_development.plot(kind='barh')
 
-plt.xlabel('Average Gender Attendance Gap (Female % - Male %)')
+plt.xlabel('Average Gender Completion Gap (F-M)')
 plt.ylabel('Development Level of Region')
-plt.title('Average Gender Attendance Gap by Development Level')
+plt.title('Average Gender Completion Gap by Development Level')
 
 plt.show()
 plt.close()
 ```
 
-![](readme_files/figure-commonmark/cell-45-output-1.png)
+![](readme_files/figure-commonmark/cell-46-output-1.png)
 
 Order & Show this in a line graph Order the development levels from
 least to most developed for a meaningful line trend
@@ -702,24 +736,24 @@ gap_by_development_ordered = gap_by_development.reindex([
 gap_by_development_ordered.plot(kind='line', marker='o')
 
 plt.xlabel('Development Level of Region')
-plt.ylabel('Average Gender Attendance Gap (Female % - Male %)')
-plt.title('Average Gender Attendance Gap by Development Level')
+plt.ylabel('Average Gender Completion Gap (F-M)')
+plt.title('Average Gender Completion Gap by Development Level')
 
 plt.show()
 plt.close()
 ```
 
-![](readme_files/figure-commonmark/cell-46-output-1.png)
+![](readme_files/figure-commonmark/cell-47-output-1.png)
 
-Gender gaps in attendance across development level do not follow a
-simple linear relationship. Less Developed regions actually show the
+Gender gaps in school completion across development level do not follow
+a simple linear relationship. Less Developed regions actually show the
 largest gap favoring girls, while More Developed regions show a smaller
 but still positive gap. However, Least Developed regions differ from
 this trend, displaying the only negative gap in the chart, indicating
-that boys attend school at higher rates than girls in the poorest
+that boys complete school at higher rates than girls in the poorest
 countries.
 
-## Is South Africa unique, or does it reflect the broader attendance patterns and gender disparities observed across other less developed countries?
+## Is South Africa unique, or does it reflect broader patterns in completion rates and gender disparities observed among other less developed countries?
 
 ## South Africa’s Data
 
@@ -744,7 +778,7 @@ south_africa
     }
 </style>
 
-|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Attendance (%) | Female Attendance (%) | Male Attendance (%) | Rural Attendance (%) | Urban Attendance (%) | Poorest Quintile Attendance (%) | Second Quintile Attendance (%) | Middle Quintile Attendance (%) | Fourth Quintile Attendance (%) | Richest Quintile Attendance (%) | Data source | Time period | Population data | Level | Gender Attendance Gap (F-M) |
+|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Completion (%) | Female Completion (%) | Male Completion (%) | Rural Completion (%) | Urban Completion (%) | Poorest Quintile Completion (%) | Second Quintile Completion (%) | Middle Quintile Completion (%) | Fourth Quintile Completion (%) | Richest Quintile Completion (%) | Data source | Time period | Population data | Level | Gender Completion Gap (F-M) |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
 | 167 | ZAF | South Africa | Sub-Saharan Africa | Eastern & Southern Africa | Less Developed | 96.309448 | 97.922318 | 94.723610 | 94.752388 | 97.392418 | 91.348824 | 96.867783 | 96.637291 | 98.816582 | 99.002617 | DHS 2016 | 2016.0 | 8019675.0 | Primary | 3.198708 |
 | 167 | ZAF | South Africa | Sub-Saharan Africa | Eastern & Southern Africa | Less Developed | 88.452599 | 91.388313 | 85.417801 | 83.954536 | 91.284042 | 74.043533 | 85.289658 | 91.217949 | 95.547638 | 98.448982 | DHS 2016 | 2016.0 | 2133073.0 | Lower secondary | 5.970512 |
@@ -763,12 +797,12 @@ less_developed = unicef_all[unicef_all['Development Regions'] == 'Less Developed
 ```
 
 ``` python
-combined_gap = (less_developed.groupby('Country')['Gender Attendance Gap (F-M)']
+combined_gap = (less_developed.groupby('Country')['Gender Completion Gap (F-M)']
     .mean())
 ```
 
 ``` python
-south_africa_combined = south_africa['Gender Attendance Gap (F-M)'].mean()
+south_africa_combined = south_africa['Gender Completion Gap (F-M)'].mean()
 ```
 
 Pick bin size for the histogram.
@@ -786,7 +820,7 @@ plt.hist(combined_gap, bins = 10, color = 'grey', alpha = 0.5)
 plt.axvline(south_africa_combined, color = 'orange', label = 'South Africa (Average Across Education Levels)')
 plt.axvline(combined_gap.mean(), color = 'blue', label = 'Less Developed Group Mean')
 
-plt.xlabel('Average Gender Attendance Gap (Female % - Male %)')
+plt.xlabel('Average Gender Completion Gap (F-M)')
 plt.ylabel('Number of Countries')
 plt.title('Distribution of Gender Gap: "Less Developed" Countries (Combined Education Levels)')
 plt.legend()
@@ -795,7 +829,7 @@ plt.show()
 plt.close()
 ```
 
-![](readme_files/figure-commonmark/cell-53-output-1.png)
+![](readme_files/figure-commonmark/cell-54-output-1.png)
 
 ``` python
 print(f'The mean of Less Developed Countries is {round(combined_gap.mean(), 2)}.')
@@ -811,15 +845,15 @@ print(f'The mean of South Africa is {round(south_africa_combined.mean(), 2)}.')
 
 The distribution of average gender gaps among Less Developed countries
 is 3.12. This indicates that the typical country in this category has
-girls’ attendance rates about 3% higher than the attendance of boys.
-South Africa’s mean (red line) appears further to the right, with an
-average gender gap of 5.42. This suggest that South Africa has a larger
-gap (favoring girls) compared to the typical country in the same
+girls’ completion rates about 3% higher than the completion rate of
+boys. South Africa’s mean (red line) appears further to the right, with
+an average gender gap of 5.42. This suggest that South Africa has a
+larger gap (favoring girls) compared to the typical country in the same
 category.
 
 ## Other Considerations
 
-## Attendace Rates in War-Affected Areas
+## Completion Rates in War-Affected Areas
 
 Save a list of the countries & the date of their data to a csv
 
@@ -852,7 +886,7 @@ war_affected = unicef_all[unicef_all['Country'].isin(war_affected_countries)]
 ```
 
 ``` python
-war_gap = (war_affected.groupby('Country')['Gender Attendance Gap (F-M)'].mean().sort_values())
+war_gap = (war_affected.groupby('Country')['Gender Completion Gap (F-M)'].mean().sort_values())
 ```
 
 ``` python
@@ -860,12 +894,12 @@ plt.figure()
 
 war_gap.plot(kind = 'barh', color = 'orange')
 
-plt.xlabel('Average Gender Attendance Gap (F - M)')
+plt.xlabel('Average Gender Completion Gap (F - M)')
 plt.ylabel('Country')
-plt.title('Average Gender Attendance Gap in War-Affected Countries')
+plt.title('Average Gender Completion Gap in War-Affected Countries')
 
 plt.show()
 plt.close()
 ```
 
-![](readme_files/figure-commonmark/cell-60-output-1.png)
+![](readme_files/figure-commonmark/cell-61-output-1.png)

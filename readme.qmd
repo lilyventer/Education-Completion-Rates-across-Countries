@@ -5,7 +5,7 @@ format: gfm
 
 ## The Prompt
 
-How do global school attendance rates differ by gender, and what patterns emerge across regions and levels of development?
+How do global school completion rates differ by gender, and what patterns emerge across regions and levels of development?
 
 ## Supproting Questions
 
@@ -15,7 +15,7 @@ How does South Africa compare with the broader regional trend?
 
 How does the gender gap change with a country's level of development?
 
-Is South Africa unique, or does it reflect the broader attendance patterns and gender disparities observed across other less developed countries?
+Is South Africa unique, or does it reflect broader patterns in completion rates and gender disparities observed among other less developed countries?
 
 ## Setup
 ## Import environments
@@ -104,16 +104,16 @@ Create a funtion to rename the columns, & save the changes
 ```{python}
 def rename_columns(df):
     df = df.rename(columns = {'ISO3': 'Country Abbreviation',
-        'Total': 'Total Attendance (%)',
-        'Gender_Female': 'Female Attendance (%)',
-        'Gender_Male': 'Male Attendance (%)',
-        'Residence_Rural': 'Rural Attendance (%)',
-        'Residence_Urban': 'Urban Attendance (%)',
-        'WealthQuintile_Poorest': 'Poorest Quintile Attendance (%)',
-        'WealthQuintile_Second': 'Second Quintile Attendance (%)',
-        'WealthQuintile_Middle': 'Middle Quintile Attendance (%)',
-        'WealthQuintile_Fourth': 'Fourth Quintile Attendance (%)',
-        'WealthQuintile_Richest': 'Richest Quintile Attendance (%)'
+        'Total': 'Total Completion (%)',
+        'Gender_Female': 'Female Completion (%)',
+        'Gender_Male': 'Male Completion (%)',
+        'Residence_Rural': 'Rural Completion (%)',
+        'Residence_Urban': 'Urban Completion (%)',
+        'WealthQuintile_Poorest': 'Poorest Quintile Completion (%)',
+        'WealthQuintile_Second': 'Second Quintile Completion (%)',
+        'WealthQuintile_Middle': 'Middle Quintile Completion (%)',
+        'WealthQuintile_Fourth': 'Fourth Quintile Completion (%)',
+        'WealthQuintile_Richest': 'Richest Quintile Completion (%)'
         })
     return df
 # the 'df =' means the new names will replace the old ones
@@ -122,6 +122,10 @@ def rename_columns(df):
 Run the function
 ```{python}
 unicef_all = rename_columns(unicef_all)
+```
+
+```{python}
+unicef_all
 ```
 
 ## Clarity on Column content/ Dictionaries
@@ -213,20 +217,20 @@ def type_change(df, column_name):
 
 For loop: all object columns 
 ```{python}
-attendance_columns = [
-    'Total Attendance (%)',
-    'Female Attendance (%)',
-    'Male Attendance (%)',
-    'Rural Attendance (%)',
-    'Urban Attendance (%)',
-    'Poorest Quintile Attendance (%)',
-    'Second Quintile Attendance (%)',
-    'Middle Quintile Attendance (%)',
-    'Fourth Quintile Attendance (%)',
-    'Richest Quintile Attendance (%)'
+completion_columns = [
+    'Total Completion (%)',
+    'Female Completion (%)',
+    'Male Completion (%)',
+    'Rural Completion (%)',
+    'Urban Completion (%)',
+    'Poorest Quintile Completion (%)',
+    'Second Quintile Completion (%)',
+    'Middle Quintile Completion (%)',
+    'Fourth Quintile Completion (%)',
+    'Richest Quintile Completion (%)'
 ]
 
-for i in attendance_columns:
+for i in completion_columns:
     type_change(unicef_all, i)
 ```
 
@@ -236,7 +240,7 @@ unicef_all.info()
 ```
 
 ```{python}
-unicef_all.sort_values('Total Attendance (%)', ascending = True)
+unicef_all.sort_values('Total Completion (%)', ascending = True)
 ```
 
 This data contains summary rows
@@ -251,18 +255,18 @@ Start with calculations now that the types are adjusted:
 ## Create Gender Gap column 
 
 ```{python}
-unicef_all['Gender Attendance Gap (F-M)'] = (
-    unicef_all['Female Attendance (%)'] - unicef_all['Male Attendance (%)'])
+unicef_all['Gender Completion Gap (F-M)'] = (
+    unicef_all['Female Completion (%)'] - unicef_all['Male Completion (%)'])
 ```
 
-Positive values mean female attendance is higher than male attendance in that row -> negative values mean male attendance is higher.
+Positive values mean female completion is higher than male completion in that row -> negative values mean male completion is higher.
 
 ```{python}
 unicef_all[['Country', 'Region', 
             'Sub-region', 'Development Regions', 
-            'Level', 'Total Attendance (%)', 
-            'Female Attendance (%)', 'Male Attendance (%)',
-            'Gender Attendance Gap (F-M)']].sort_values('Gender Attendance Gap (F-M)', ascending=False)
+            'Level', 'Total Completion (%)', 
+            'Female Completion (%)', 'Male Completion (%)',
+            'Gender Completion Gap (F-M)']].sort_values('Gender Completion Gap (F-M)', ascending=False)
 ```
 
 ```{python}
@@ -274,7 +278,7 @@ unicef_all
 
 ```{python}
 gap_mean = (unicef_all
-            .groupby('Region')['Gender Attendance Gap (F-M)']
+            .groupby('Region')['Gender Completion Gap (F-M)']
             .mean()
             .sort_values())
 ```
@@ -284,15 +288,15 @@ plt.figure()
 
 gap_mean.plot(kind = 'barh')
 
-plt.xlabel('Average Gender Attendance Gap (Female % - Male %)')
+plt.xlabel('Average Gender Completion Gap (F-M)')
 plt.ylabel('Region')
-plt.title('Average Gender Attendance Gap by Region')
+plt.title('Average Gender Completion Gap by Region')
 
 plt.show()
 plt.close()
 ```
 
-For East Asia & the Pacific, Latin America & the Caribbean, and the Middle East & North Africa, the gender gap is positive. This indicates that girls have higher school attendance rates than boys. For Europe & Central Asia shows little difference between male and female attendance. In contrast, Sub-Saharan Africa and South Asia display negative gender gaps. This means boys attend school at higher rates than girls. 
+For East Asia & the Pacific, Latin America & the Caribbean, and the Middle East & North Africa, the gender gap is positive. This indicates that girls have higher school completion rates than boys. For Europe & Central Asia shows little difference between male and female completion. In contrast, Sub-Saharan Africa and South Asia display negative gender gaps. This means boys complete school at higher rates than girls. 
 
 ## How does South Africa compare with the broader regional trend?
 ```{python}
@@ -310,11 +314,11 @@ region_group = unicef_all[unicef_all['Region'] == 'Sub-Saharan Africa']
 ```
 
 ```{python}
-south_africa_combined = south_africa['Gender Attendance Gap (F-M)'].mean()
+south_africa_combined = south_africa['Gender Completion Gap (F-M)'].mean()
 ```
 
 ```{python}
-combined_gap_region = (region_group.groupby('Country')['Gender Attendance Gap (F-M)'].mean())
+combined_gap_region = (region_group.groupby('Country')['Gender Completion Gap (F-M)'].mean())
 ```
 
 Pick bin size for the histogram.
@@ -326,10 +330,10 @@ region_group['Country'].nunique()
 plt.figure()
 
 plt.hist(combined_gap_region, bins=5, color='grey', alpha=0.5)
-plt.axvline(south_africa_combined, color='orange', label='South Africa (average across Education levels)')
-plt.axvline(combined_gap_region.mean(), color='blue', label='Sub-Saharan Africa group mean')
+plt.axvline(south_africa_combined, color='orange', label='South Africa (Average across Education Levels)')
+plt.axvline(combined_gap_region.mean(), color='blue', label='Sub-Saharan Africa Group Mean')
 
-plt.xlabel('Average Gender Attendance Gap (Female % - Male %)')
+plt.xlabel('Average Gender Completion Gap (F-M)')
 plt.ylabel('Number of Countries')
 plt.title('Distribution of Gender Gap: Sub-Saharan Africa Countries (Combined Education Levels)')
 plt.legend()
@@ -346,13 +350,13 @@ print(f'The mean of the Sub-Saharan Africa Countries is {round(combined_gap_regi
 print(f'The mean of South Africa is {round(south_africa_combined, 2)}.')
 ```
 
-The Sub-Saharan Africa regional mean is -1.8, indicating that, on average, boys have slightly higher attendance rates than girls across the region. South Africa’s stands in contrast to it's regional mean with an average gender gap of 5.42. South Africa is positioned far above the regional average and beyond the main concentration of countries in the distribution. While most Sub-Saharan African countries show a small gap favoring boys, South Africa demonstrates a comparatively larger gap favoring girls.
+The Sub-Saharan Africa regional mean is -1.8, indicating that, on average, boys have slightly higher completion rates than girls across the region. South Africa’s stands in contrast to it's regional mean with an average gender gap of 5.42. South Africa is positioned far above the regional average and beyond the main concentration of countries in the distribution. While most Sub-Saharan African countries show a small gap favoring boys, South Africa demonstrates a comparatively larger gap favoring girls.
 
 ## How does the gender gap change with a country's level of development?
 
 ```{python}
 gap_by_development = (unicef_all
-                    .groupby('Development Regions')['Gender Attendance Gap (F-M)']
+                    .groupby('Development Regions')['Gender Completion Gap (F-M)']
                     .mean()
                     .sort_values())
 ```
@@ -362,9 +366,9 @@ plt.figure()
 
 gap_by_development.plot(kind='barh')
 
-plt.xlabel('Average Gender Attendance Gap (Female % - Male %)')
+plt.xlabel('Average Gender Completion Gap (F-M)')
 plt.ylabel('Development Level of Region')
-plt.title('Average Gender Attendance Gap by Development Level')
+plt.title('Average Gender Completion Gap by Development Level')
 
 plt.show()
 plt.close()
@@ -384,16 +388,16 @@ gap_by_development_ordered = gap_by_development.reindex([
 gap_by_development_ordered.plot(kind='line', marker='o')
 
 plt.xlabel('Development Level of Region')
-plt.ylabel('Average Gender Attendance Gap (Female % - Male %)')
-plt.title('Average Gender Attendance Gap by Development Level')
+plt.ylabel('Average Gender Completion Gap (F-M)')
+plt.title('Average Gender Completion Gap by Development Level')
 
 plt.show()
 plt.close()
 ```
 
-Gender gaps in attendance across development level do not follow a simple linear relationship. Less Developed regions actually show the largest gap favoring girls, while More Developed regions show a smaller but still positive gap. However, Least Developed regions differ from this trend, displaying the only negative gap in the chart, indicating that boys attend school at higher rates than girls in the poorest countries.
+Gender gaps in school completion across development level do not follow a simple linear relationship. Less Developed regions actually show the largest gap favoring girls, while More Developed regions show a smaller but still positive gap. However, Least Developed regions differ from this trend, displaying the only negative gap in the chart, indicating that boys complete school at higher rates than girls in the poorest countries.
 
-## Is South Africa unique, or does it reflect the broader attendance patterns and gender disparities observed across other less developed countries?
+## Is South Africa unique, or does it reflect broader patterns in completion rates and gender disparities observed among other less developed countries?
 ## South Africa's Data
 
 ```{python}
@@ -413,12 +417,12 @@ less_developed = unicef_all[unicef_all['Development Regions'] == 'Less Developed
 ```
 
 ```{python}
-combined_gap = (less_developed.groupby('Country')['Gender Attendance Gap (F-M)']
+combined_gap = (less_developed.groupby('Country')['Gender Completion Gap (F-M)']
     .mean())
 ```
 
 ```{python}
-south_africa_combined = south_africa['Gender Attendance Gap (F-M)'].mean()
+south_africa_combined = south_africa['Gender Completion Gap (F-M)'].mean()
 ```
 
 Pick bin size for the histogram.
@@ -433,7 +437,7 @@ plt.hist(combined_gap, bins = 10, color = 'grey', alpha = 0.5)
 plt.axvline(south_africa_combined, color = 'orange', label = 'South Africa (Average Across Education Levels)')
 plt.axvline(combined_gap.mean(), color = 'blue', label = 'Less Developed Group Mean')
 
-plt.xlabel('Average Gender Attendance Gap (Female % - Male %)')
+plt.xlabel('Average Gender Completion Gap (F-M)')
 plt.ylabel('Number of Countries')
 plt.title('Distribution of Gender Gap: "Less Developed" Countries (Combined Education Levels)')
 plt.legend()
@@ -450,10 +454,10 @@ print(f'The mean of Less Developed Countries is {round(combined_gap.mean(), 2)}.
 print(f'The mean of South Africa is {round(south_africa_combined.mean(), 2)}.')
 ```
 
-The distribution of average gender gaps among Less Developed countries is 3.12. This indicates that the typical country in this category has girls’ attendance rates about 3% higher than the attendance of boys. South Africa’s mean (red line) appears further to the right, with an average gender gap of 5.42. This suggest that South Africa has a larger gap (favoring girls) compared to the typical country in the same category.
+The distribution of average gender gaps among Less Developed countries is 3.12. This indicates that the typical country in this category has girls’ completion rates about 3% higher than the completion rate of boys. South Africa’s mean (red line) appears further to the right, with an average gender gap of 5.42. This suggest that South Africa has a larger gap (favoring girls) compared to the typical country in the same category.
 
 ## Other Considerations
-## Attendace Rates in War-Affected Areas
+## Completion Rates in War-Affected Areas
 
 Save a list of the countries & the date of their data to a csv
 ```{python}
@@ -483,7 +487,7 @@ war_affected = unicef_all[unicef_all['Country'].isin(war_affected_countries)]
 ```
 
 ```{python}
-war_gap = (war_affected.groupby('Country')['Gender Attendance Gap (F-M)'].mean().sort_values())
+war_gap = (war_affected.groupby('Country')['Gender Completion Gap (F-M)'].mean().sort_values())
 ```
 
 ```{python}
@@ -491,9 +495,9 @@ plt.figure()
 
 war_gap.plot(kind = 'barh', color = 'orange')
 
-plt.xlabel('Average Gender Attendance Gap (F - M)')
+plt.xlabel('Average Gender Completion Gap (F - M)')
 plt.ylabel('Country')
-plt.title('Average Gender Attendance Gap in War-Affected Countries')
+plt.title('Average Gender Completion Gap in War-Affected Countries')
 
 plt.show()
 plt.close()

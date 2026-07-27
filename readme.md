@@ -6,18 +6,21 @@
 How do global school attendance rates differ by gender, and what
 patterns emerge across regions and levels of development?
 
-# Supproting Questions
+## Supproting Questions
 
 Does the direction of the gender gap differ across regions?
+
+How does South Africa compare with the broader regional trend?
 
 How does gender parity change with a country’s level of development?
 
 Is South Africa unique, or does it reflect the broader attendance
-patterns and gender disparities observed across Southern Africa?
+patterns and gender disparities observed across other less developed
+countries?
 
 ## Setup
 
-# Import environments
+## Import environments
 
 For Exploration/ Claculations
 
@@ -33,11 +36,11 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 ```
 
-# In Terminal
+## In Terminal
 
 pip3 install openpyxl This allows the excel file to be read.
 
-# Importing in the Data
+## Importing in the Data
 
 ``` python
 file_path = '~/Library/Mobile Documents/com~apple~CloudDocs/MSBAAcademics/Python/PotentialDataSets/CompletionRateData.xlsx'
@@ -53,7 +56,7 @@ unicef_data_upper =pd.read_excel(file_path, sheet_name='Upper secondary')
 
 (Imported as seperate Data Frames)
 
-# Initial Exploration
+## Initial Exploration
 
 Look at the first & last 5 rows of each sheet, & shape
 
@@ -103,7 +106,7 @@ unicef_all = pd.concat([
 
 ## Cleaning the Data
 
-# Renaming
+## Renaming
 
 View Column names
 
@@ -146,7 +149,7 @@ Run the function
 unicef_all = rename_columns(unicef_all)
 ```
 
-# Clarity on Column content/ Dictionaries
+## Clarity on Column content/ Dictionaries
 
 Dictionary for region names
 
@@ -206,7 +209,7 @@ also use get() with your result if you need more than the abbreviation.
 unicef_all['Sub-region'] = unicef_all['Sub-region'].map(subregion_names)
 ```
 
-# Remove unnamed columns
+## Remove unnamed columns
 
 ``` python
 unicef_all.columns
@@ -442,7 +445,7 @@ unicef_all.sort_values('Total Attendance (%)', ascending = True)
 </div>
 
 This data contains summary rows For summary rows: Country Abbreviation =
-NaN \# Filter out summary rows
+NaN \## Filter out summary rows
 
 ``` python
 unicef_all = unicef_all[unicef_all['Country Abbreviation'].notna()]
@@ -450,7 +453,7 @@ unicef_all = unicef_all[unicef_all['Country Abbreviation'].notna()]
 
 ## Calculations
 
-Start with calculations now that the types are adjusted: \# Create
+Start with calculations now that the types are adjusted: \## Create
 Gender Gap column
 
 ``` python
@@ -535,10 +538,11 @@ unicef_all
 
 ## Plot
 
-# Does the direction of the gender gap differ across regions?
+## Does the direction of the gender gap differ across regions?
 
 ``` python
-gap_mean = (unicef_all.groupby('Region')['Gender Attendance Gap (F-M)']
+gap_mean = (unicef_all
+            .groupby('Region')['Gender Attendance Gap (F-M)']
             .mean()
             .sort_values())
 ```
@@ -565,10 +569,303 @@ Central Asia shows little difference between male and female attendance.
 In contrast, Sub-Saharan Africa and South Asia display negative gender
 gaps. This means boys attend school at higher rates than girls.
 
-# How does gender parity change with a country’s level of development?
+## How does South Africa compare with the broader regional trend?
 
-# Is South Africa unique, or does it reflect the broader attendance patterns and gender disparities observed across Southern Africa?
+``` python
+south_africa = unicef_all[unicef_all['Country'] == 'South Africa']
+```
+
+``` python
+south_africa
+```
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&#10;    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+&#10;    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Attendance (%) | Female Attendance (%) | Male Attendance (%) | Rural Attendance (%) | Urban Attendance (%) | Poorest Quintile Attendance (%) | Second Quintile Attendance (%) | Middle Quintile Attendance (%) | Fourth Quintile Attendance (%) | Richest Quintile Attendance (%) | Data source | Time period | Population data | Level | Gender Attendance Gap (F-M) |
+|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
+| 167 | ZAF | South Africa | Sub-Saharan Africa | Eastern & Southern Africa | Less Developed | 96.309448 | 97.922318 | 94.723610 | 94.752388 | 97.392418 | 91.348824 | 96.867783 | 96.637291 | 98.816582 | 99.002617 | DHS 2016 | 2016.0 | 8019675.0 | Primary | 3.198708 |
+| 167 | ZAF | South Africa | Sub-Saharan Africa | Eastern & Southern Africa | Less Developed | 88.452599 | 91.388313 | 85.417801 | 83.954536 | 91.284042 | 74.043533 | 85.289658 | 91.217949 | 95.547638 | 98.448982 | DHS 2016 | 2016.0 | 2133073.0 | Lower secondary | 5.970512 |
+| 167 | ZAF | South Africa | Sub-Saharan Africa | Eastern & Southern Africa | Less Developed | 48.429630 | 51.866810 | 44.761429 | 33.659161 | 55.592560 | 23.321510 | 35.827412 | 50.117161 | 59.173309 | 78.196602 | DHS 2016 | 2016.0 | 2989636.0 | Upper secondary | 7.105381 |
+
+</div>
+
+South Africa’s region is Sub-Saharan Africa. A histogram will be useful
+to understand how its gender gap compares with the overall distribution
+of countries in this region.
+
+``` python
+region_group = unicef_all[unicef_all['Region'] == 'Sub-Saharan Africa']
+```
+
+``` python
+south_africa_combined = south_africa['Gender Attendance Gap (F-M)'].mean()
+```
+
+``` python
+combined_gap_region = (region_group.groupby('Country')['Gender Attendance Gap (F-M)'].mean())
+```
+
+Pick bin size for the histogram.
+
+``` python
+region_group['Country'].nunique()
+```
+
+    49
+
+``` python
+plt.figure()
+
+plt.hist(combined_gap_region, bins=5, color='grey', alpha=0.5)
+plt.axvline(south_africa_combined, color='orange', label='South Africa (average across Education levels)')
+plt.axvline(combined_gap_region.mean(), color='blue', label='Sub-Saharan Africa group mean')
+
+plt.xlabel('Average Gender Attendance Gap (Female % - Male %)')
+plt.ylabel('Number of Countries')
+plt.title('Distribution of Gender Gap: Sub-Saharan Africa Countries (Combined Education Levels)')
+plt.legend()
+
+plt.show()
+plt.close()
+```
+
+![](readme_files/figure-commonmark/cell-41-output-1.png)
+
+``` python
+print(f'The mean of the Sub-Saharan Africa Countries is {round(combined_gap_region.mean(), 2)}.')
+```
+
+    The mean of the Sub-Saharan Africa Countries is -1.8.
+
+``` python
+print(f'The mean of South Africa is {round(south_africa_combined, 2)}.')
+```
+
+    The mean of South Africa is 5.42.
+
+The Sub-Saharan Africa regional mean is -1.8, indicating that, on
+average, boys have slightly higher attendance rates than girls across
+the region. South Africa’s stands in contrast to it’s regional mean with
+an average gender gap of 5.42. South Africa is positioned far above the
+regional average and beyond the main concentration of countries in the
+distribution. While most Sub-Saharan African countries show a small gap
+favoring boys, South Africa demonstrates a comparatively larger gap
+favoring girls.
+
+## How does gender parity change with a country’s level of development?
+
+``` python
+gap_by_development = (unicef_all
+                    .groupby('Development Regions')['Gender Attendance Gap (F-M)']
+                    .mean()
+                    .sort_values())
+```
+
+``` python
+plt.figure()
+
+gap_by_development.plot(kind='barh')
+
+plt.xlabel('Average Gender Attendance Gap (Female % - Male %)')
+plt.ylabel('Development Level of Region')
+plt.title('Average Gender Attendance Gap by Development Level')
+
+plt.show()
+plt.close()
+```
+
+![](readme_files/figure-commonmark/cell-45-output-1.png)
+
+Order & Show this in a line graph Order the development levels from
+least to most developed for a meaningful line trend
+
+``` python
+plt.figure()
+
+gap_by_development_ordered = gap_by_development.reindex([
+    'Least Developed', 
+    'Less Developed', 
+    'Not Classified', 
+    'More Developed'])
+
+gap_by_development_ordered.plot(kind='line', marker='o')
+
+plt.xlabel('Development Level of Region')
+plt.ylabel('Average Gender Attendance Gap (Female % - Male %)')
+plt.title('Average Gender Attendance Gap by Development Level')
+
+plt.show()
+plt.close()
+```
+
+![](readme_files/figure-commonmark/cell-46-output-1.png)
+
+Gender gaps in attendance across development level do not follow a
+simple linear relationship. Less Developed regions actually show the
+largest gap favoring girls, while More Developed regions show a smaller
+but still positive gap. However, Least Developed regions differ from
+this trend, displaying the only negative gap in the chart, indicating
+that boys attend school at higher rates than girls in the poorest
+countries.
+
+## Is South Africa unique, or does it reflect the broader attendance patterns and gender disparities observed across other less developed countries?
+
+## South Africa’s Data
+
+``` python
+south_africa = unicef_all[unicef_all['Country'] == 'South Africa']
+```
+
+``` python
+south_africa
+```
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+&#10;    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+&#10;    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+
+|  | Country Abbreviation | Country | Region | Sub-region | Development Regions | Total Attendance (%) | Female Attendance (%) | Male Attendance (%) | Rural Attendance (%) | Urban Attendance (%) | Poorest Quintile Attendance (%) | Second Quintile Attendance (%) | Middle Quintile Attendance (%) | Fourth Quintile Attendance (%) | Richest Quintile Attendance (%) | Data source | Time period | Population data | Level | Gender Attendance Gap (F-M) |
+|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
+| 167 | ZAF | South Africa | Sub-Saharan Africa | Eastern & Southern Africa | Less Developed | 96.309448 | 97.922318 | 94.723610 | 94.752388 | 97.392418 | 91.348824 | 96.867783 | 96.637291 | 98.816582 | 99.002617 | DHS 2016 | 2016.0 | 8019675.0 | Primary | 3.198708 |
+| 167 | ZAF | South Africa | Sub-Saharan Africa | Eastern & Southern Africa | Less Developed | 88.452599 | 91.388313 | 85.417801 | 83.954536 | 91.284042 | 74.043533 | 85.289658 | 91.217949 | 95.547638 | 98.448982 | DHS 2016 | 2016.0 | 2133073.0 | Lower secondary | 5.970512 |
+| 167 | ZAF | South Africa | Sub-Saharan Africa | Eastern & Southern Africa | Less Developed | 48.429630 | 51.866810 | 44.761429 | 33.659161 | 55.592560 | 23.321510 | 35.827412 | 50.117161 | 59.173309 | 78.196602 | DHS 2016 | 2016.0 | 2989636.0 | Upper secondary | 7.105381 |
+
+</div>
+
+## South Africa compared to other less developed countries
+
+South Africa is classified as Less Developed. A histogram will be useful
+to understand how its gender gap compares with the overall distribution
+of countries in this group.
+
+``` python
+less_developed = unicef_all[unicef_all['Development Regions'] == 'Less Developed']
+```
+
+``` python
+combined_gap = (less_developed.groupby('Country')['Gender Attendance Gap (F-M)']
+    .mean())
+```
+
+``` python
+south_africa_combined = south_africa['Gender Attendance Gap (F-M)'].mean()
+```
+
+Pick bin size for the histogram.
+
+``` python
+less_developed['Country'].nunique()
+```
+
+    99
+
+``` python
+plt.figure()
+
+plt.hist(combined_gap, bins = 10, color = 'grey', alpha = 0.5)
+plt.axvline(south_africa_combined, color = 'orange', label = 'South Africa (Average Across Education Levels)')
+plt.axvline(combined_gap.mean(), color = 'blue', label = 'Less Developed Group Mean')
+
+plt.xlabel('Average Gender Attendance Gap (Female % - Male %)')
+plt.ylabel('Number of Countries')
+plt.title('Distribution of Gender Gap: "Less Developed" Countries (Combined Education Levels)')
+plt.legend()
+
+plt.show()
+plt.close()
+```
+
+![](readme_files/figure-commonmark/cell-53-output-1.png)
+
+``` python
+print(f'The mean of Less Developed Countries is {round(combined_gap.mean(), 2)}.')
+```
+
+    The mean of Less Developed Countries is 3.18.
+
+``` python
+print(f'The mean of South Africa is {round(south_africa_combined.mean(), 2)}.')
+```
+
+    The mean of South Africa is 5.42.
+
+The distribution of average gender gaps among Less Developed countries
+is 3.12. This indicates that the typical country in this category has
+girls’ attendance rates about 3% higher than the attendance of boys.
+South Africa’s mean (red line) appears further to the right, with an
+average gender gap of 5.42. This suggest that South Africa has a larger
+gap (favoring girls) compared to the typical country in the same
+category.
 
 ## Other Considerations
 
-# Attendace Rates in War-Affected Areas
+## Attendace Rates in War-Affected Areas
+
+Save a list of the countries & the date of their data to a csv
+
+``` python
+unicef_all[['Country', 'Time period']].drop_duplicates().sort_values('Country').to_csv('country_time_period.csv', index=False)
+```
+
+This file was imported to Gemini and generated a list of: Countries
+experiencing active war/armed conflict during the years specifically
+listed.
+
+``` python
+war_affected_countries = ['Afghanistan',
+                        'Central African Republic',
+                        'Colombia',
+                        'Democratic Republic of the Congo',
+                        'Iraq',
+                        'Mali',
+                        'Myanmar',
+                        'Nigeria',
+                        'Pakistan',
+                        'South Sudan',
+                        'State of Palestine',
+                        'Sudan',
+                        'Yemen']
+```
+
+``` python
+war_affected = unicef_all[unicef_all['Country'].isin(war_affected_countries)]
+```
+
+``` python
+war_gap = (war_affected.groupby('Country')['Gender Attendance Gap (F-M)'].mean().sort_values())
+```
+
+``` python
+plt.figure()
+
+war_gap.plot(kind = 'barh', color = 'orange')
+
+plt.xlabel('Average Gender Attendance Gap (F - M)')
+plt.ylabel('Country')
+plt.title('Average Gender Attendance Gap in War-Affected Countries')
+
+plt.show()
+plt.close()
+```
+
+![](readme_files/figure-commonmark/cell-60-output-1.png)

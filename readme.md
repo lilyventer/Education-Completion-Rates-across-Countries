@@ -12,7 +12,7 @@ Does the direction of the gender gap differ across regions?
 
 How does South Africa compare with the broader regional trend?
 
-How does gender parity change with a country’s level of development?
+How does the gender gap change with a country’s level of development?
 
 Is South Africa unique, or does it reflect the broader attendance
 patterns and gender disparities observed across other less developed
@@ -663,7 +663,7 @@ distribution. While most Sub-Saharan African countries show a small gap
 favoring boys, South Africa demonstrates a comparatively larger gap
 favoring girls.
 
-## How does gender parity change with a country’s level of development?
+## How does the gender gap change with a country’s level of development?
 
 ``` python
 gap_by_development = (unicef_all

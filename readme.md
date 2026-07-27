@@ -729,9 +729,9 @@ plt.figure()
 
 gap_by_development_ordered = gap_by_development.reindex([
     'Least Developed', 
-    'Less Developed', 
-    'Not Classified', 
-    'More Developed'])
+    'Less Developed',
+    'More Developed',
+    'Not Classified'])
 
 gap_by_development_ordered.plot(kind='line', marker='o')
 
